@@ -5,8 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 // This sets Ketrel as default edge server(aks Application server) which
 // hosts our ASP.NET Core Web Application.
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<MovieDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'MovieDbContext' not found.")));
+//builder.Services.AddDbContext<MovieDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'MovieDbContext' not found.")));
+
+builder.Services.AddDbContext<MovieDbContext>(options => 
+    options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'MovieDbContext' not found.")));
 
 // Add services to the container.
 /*
@@ -27,7 +30,7 @@ builder.Services.AddDbContext<MovieDbContext>(options =>
 builder.Services.AddControllersWithViews();
 
 // Register your DbContext with the connection string
-builder.Services.AddDbContext<CineComplex_MVC.Models.MovieDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<CineComplex_MVC.Models.MovieDbContext>(options => options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 var app = builder.Build();
